@@ -4,7 +4,7 @@ omega_2 = 3;    % omega_2 = omega
 R = 9.81/omega_2^2;
 m = 1;
 
-[T, y] = pendulum(R,theta_0, dtheta_0, 1);
+[T, y] = simple_pendulum(R,theta_0, dtheta_0, 1);
 t = y(:,1);
 r = y(:,2);  % theta
 rdot = y(:,3); % d(theta)/dt
@@ -30,7 +30,7 @@ t_delta_n =[];
 delta_n = [];
 for i= 1: size(t)-1
     for j=1:10
-        if (abs(t(i) - j*period)<0.007)
+        if (abs(t(i) - j*period)<0.0225)
             index = [index;i];
             t_delta_n = [t_delta_n;t(i)];
             delta_i = (E_total(i)-E_total(1))/E_total(1);
@@ -45,7 +45,10 @@ plot(t_delta_n,delta_n,'-')    % plotting relative chaneg in total energy for ea
 legend('delta_n')
 title('relative change in total energy during each cycle')
 sprintf("Relative change in total energy not unifrom over each cycle")
-
+t
+period
+size(index)
+t(index)
 
 delta = [];
 for i=1:size(E_total)
@@ -60,6 +63,7 @@ sprintf("Relative change in total energy not unifrom over time")
     
 sum_KE = 0;
 sum_PE = 0;
+
 
 for i=index(1):index(2);
     sum_PE = sum_PE + E_P(i); 
@@ -89,7 +93,7 @@ title('Phase space diagram')
 theta_01 = 0; % initial displacement
 dtheta_01 = 1; % initial velocity
 
-[T1, y1] = pendulum(R,theta_01, dtheta_01, 1);
+[T1, y1] = simple_pendulum(R,theta_01, dtheta_01, 1);
 r1 = y1(:,2);  % theta
 r1dot = y1(:,3); % d(theta)/dt
 
@@ -101,7 +105,7 @@ title('Phase space diagram')
 theta_02 = 1; % initial displacement
 dtheta_02 = 1; % initial velocity
 
-[T2, y2] = pendulum(R,theta_02, dtheta_02, 1);
+[T2, y2] = simple_pendulum(R,theta_02, dtheta_02, 1);
 r2 = y2(:,2);  % theta
 r2dot = y2(:,3); % d(theta)/dt
 
