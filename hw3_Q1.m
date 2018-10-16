@@ -1,17 +1,21 @@
+clear all;
+
 theta_0 = 0.25; % initial displacement
 dtheta_0 = 0;   % initial velocity
 omega_2 = 3;    % omega_2 = omega
-R = 9.81/omega_2^2;
 m = 1;
+g = 9.81;
+R = g/omega_2^2;
 
 [T, y] = simple_pendulum(R,theta_0, dtheta_0, 1);
 t = y(:,1);
 r = y(:,2);  % theta
 rdot = y(:,3); % d(theta)/dt
 
-subplot(4,2,1)
+figure(1);
 plot(t,r,'k-',t,rdot,'b-')
 legend('Position','Velocity')
+xlabel('t')
 title('Position and velocity vs time')
 
 
@@ -19,10 +23,11 @@ E_K =  0.5*m*R^2*(rdot.^2);
 E_P = 0.5*m*R^2*( omega_2^2*r.^2);
 E_total = E_K + E_P;
 
-subplot(4,2,2)
-plot(t,E_total,'-')    % plotting total energy vs time
-legend('Total energy')
-title('Total energy as a function of time')
+figure(2);
+plot(t,E_total,'c-', t, E_K, 'm-', t, E_P, 'k-')    % plotting total energy vs time
+legend('Total energy', 'Kinetic energy', 'Potential energy')
+xlabel('t')
+title('Energies as a function of time')
 
 period = 2*pi/omega_2;
 index = [];
@@ -40,24 +45,25 @@ for i= 1: size(t)-1
 end
 
 delta_n;
-subplot(4,2,3)
+figure(3);
 plot(t_delta_n,delta_n,'-')    % plotting relative chaneg in total energy for each cycle
-legend('delta_n')
+legend('\delta E_n')
+ylabel('\delta E_n');
+xlabel('n')
 title('relative change in total energy during each cycle')
 sprintf("Relative change in total energy not unifrom over each cycle")
-t
-period
-size(index)
-t(index)
+
 
 delta = [];
 for i=1:size(E_total)
     delta_i = (E_total(i)-E_total(1))/E_total(1);
     delta = [delta;delta_i];
 end
-subplot(4,2,4)
+figure(4);
 plot(t,delta,'-')    % plotting relative chaneg in total energy vs time
-legend('delta')
+legend('\delta E')
+xlabel('t')
+ylabel('\delta E')
 title('relative change in total energy vs time')
 sprintf("Relative change in total energy not unifrom over time")
     
@@ -79,15 +85,40 @@ for i=index(1):index(2)
     a_KE = [a_KE;avg_KE];
 end
 
-subplot(4,2,5)
-plot(t_avg,a_PE,'b-',t_avg,a_KE,'k-')    % plotting average potential & kientic energy vs time
+
+
+KE_avg =[];
+PE_avg =[];
+E_avg =[];
+ind = find(rdot.*circshift(rdot , [-1 0]) <= 0);
+for i =1:(length(ind)-2) / 2 
+    n1 =2 .* i -1;
+    KE_element = 0.5 .* R.^2 .* rdot(ind(n1): ind(n1+2)).^2;  
+    PE_element = 0.5 .* m .* R^2.*( omega_2^2*r(ind(n1): ind(n1+2)).^2);%g .* R .* (1-cos(r(ind(n1): ind(n1 +2)))) ; 
+    E_element=KE_element + PE_element; 
+    KE_avg =[KE_avg, mean(KE_element)];
+    PE_avg =[PE_avg, mean(PE_element)];
+    E_avg =[E_avg, mean(E_element)];
+    
+end    
+n  =1:(length(ind)-2) / 2 ;
+
+
+
+
+figure(5);
+plot(n,PE_avg,'b-',n,KE_avg,'k-')    % plotting average potential & kientic energy vs time
 legend('Avergae Potential Energy','Average Kinetic Energy')
 title('Average potential and kinetic energy over one cycle')
+xlabel('n')
+ylabel('Average energies')
 
-subplot(4,2,6)
+figure(6);
 plot(r, rdot,'k-')    % phase space
-legend('omega^2 = 9')
+legend('\omega^2 = 9')
 title('Phase space diagram')
+xlabel('\theta')
+ylabel('d\theta / dt')
 
 
 theta_01 = 0; % initial displacement
@@ -97,10 +128,12 @@ dtheta_01 = 1; % initial velocity
 r1 = y1(:,2);  % theta
 r1dot = y1(:,3); % d(theta)/dt
 
-subplot(4,2,7)
+figure(7);
 plot(r1, r1dot,'k-')    % phase space
-legend('omega^2 = 9')
+legend('\omega^2 = 9')
 title('Phase space diagram')
+xlabel('\theta')
+ylabel('d\theta / dt')
 
 theta_02 = 1; % initial displacement
 dtheta_02 = 1; % initial velocity
@@ -109,10 +142,12 @@ dtheta_02 = 1; % initial velocity
 r2 = y2(:,2);  % theta
 r2dot = y2(:,3); % d(theta)/dt
 
-subplot(4,2,8)
+figure(8);
 plot(r2, r2dot,'k-')    % phase space
 legend('omega^2 = 9')
 title('Phase space diagram')
+xlabel('\theta')
+ylabel('d\theta / dt')
 
 sprintf("Depending on initial displacement and initial velocity all paths are different.")
 sprintf("Shape of all paths are same, i.e. ellipse.") 
