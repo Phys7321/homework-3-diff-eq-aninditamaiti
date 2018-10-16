@@ -31,7 +31,7 @@ ind1 = find(r1dot.*circshift(r1dot , [-1 0]) <= 0);
 for i =1:(length(ind1)-2) / 2 
     n1 =2 .* i -1;
     KE_element = 0.5 .* R.^2 .* r1dot(ind1(n1): ind1(n1+2)).^2;  
-    PE_element = g .* R .* (1-cos(r1(ind1(n1): ind1(n1)))) ; 
+    PE_element = g .* R .* (1-cos(r1(ind1(n1): ind1(n1+2)))) ; 
     E_element=KE_element + PE_element; 
     KE1_avg =[KE1_avg, mean(KE_element)];
     PE1_avg =[PE1_avg, mean(PE_element)];
@@ -69,7 +69,7 @@ ind2 = find(r2dot.*circshift(r2dot , [-1 0]) <= 0);
 for i =1:(length(ind2)-2) / 2 
     n1 =2 .* i -1;
     KE_element = 0.5 .* R.^2 .* r2dot(ind2(n1): ind2(n1+2)).^2;  
-    PE_element = g .* R .* (1-cos(r2(ind2(n1): ind2(n1)))) ; 
+    PE_element = g .* R .* (1-cos(r2(ind2(n1): ind2(n1+2)))) ; 
     E_element=KE_element + PE_element; 
     KE2_avg =[KE2_avg, mean(KE_element)];
     PE2_avg =[PE2_avg, mean(PE_element)];
@@ -107,7 +107,7 @@ ind3 = find(r3dot.*circshift(r3dot , [-1 0]) <= 0);
 for i =1:(length(ind3)-2) / 2 
     n1 =2 .* i -1;
     KE_element = 0.5 .* R.^2 .* r3dot(ind3(n1): ind3(n1+2)).^2;  
-    PE_element = g .* R .* (1-cos(r3(ind3(n1): ind3(n1)))) ; 
+    PE_element = g .* R .* (1-cos(r3(ind3(n1): ind3(n1 +2)))) ; 
     E_element=KE_element + PE_element; 
     KE3_avg =[KE3_avg, mean(KE_element)];
     PE3_avg =[PE3_avg, mean(PE_element)];
@@ -144,7 +144,7 @@ ind4 = find(r4dot.*circshift(r4dot , [-1 0]) <= 0);
 for i =1:(length(ind4)-2) / 2 
     n1 =2 .* i -1;
     KE_element = 0.5 .* R.^2 .* r4dot(ind4(n1): ind4(n1+2)).^2;  
-    PE_element = g .* R .* (1-cos(r4(ind4(n1): ind4(n1)))) ; 
+    PE_element = g .* R .* (1-cos(r4(ind4(n1): ind4(n1 +2)))) ; 
     E_element=KE_element + PE_element; 
     KE4_avg =[KE4_avg, mean(KE_element)];
     PE4_avg =[PE4_avg, mean(PE_element)];
@@ -253,7 +253,15 @@ sprintf('Gamma = %0.0f decays to equilibrium at t = %0.3f', gamma7, te7)
 sprintf('Gamma = %0.0f decays to equilibrium at t = %0.3f', gamma8, te8)
 sprintf('Gamma = %0.0f decays to equilibrium at t = %0.3f', gamma9, te9)
 
+stop = [te5, te6, te7, te8, te9];
+gammap = [gamma5, gamma6, gamma7, gamma8, gamma9];
 figure(15)
+plot(gammap, stop)
+xlabel('\gamma')
+ylabel('Time to reach equilibrium')
+
+
+figure(16)
 plot(r9,r9dot,'b-', r7, r7dot, 'r-', r5, r5dot, 'g-', r3, r3dot, 'k-', r1, r1dot, 'c-')
 legend('\gamma=8','\gamma=6','\gamma=4','\gamma=2','\gamma=0.5')
 title('Phase space diagrams')
