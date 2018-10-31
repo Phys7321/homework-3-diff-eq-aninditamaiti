@@ -1,0 +1,9 @@
+# Feedback
+10.31 HW3 is a long one so here's my feedback
+Q1: Looks good. I would advise to insert comments in the code and not print them to the command line unless you go to the trouble in formatting them, because they come out quite hard to read.
+Q2: the physics are all right and the graphs look good. On the programming size, you are repeating code for all the different parameters - it's much more efficient to use a for loop or use the array and indexing ability in MATLAB. You should never be repeating code with just one little difference between the two code blocks
+Q3: More of the same comments on the programming side, you're not taking advantage of the arrays in MATLAB and your code is bloated, you can save a lot of time. On the physics side, I'd check your definitions of gamma with those in the ipynb notebooks for this, your damping cases all seem a little too damped, as if you have a different definition of gamma.
+Q4: You're using more arrays but still could be more efficient. You are producing many graphs that look exactly the same - maybe reduce that and plot some quantities together.
+Q5: I would like you to take another look at the graphs you are producing here - is the amplitude really maximum at w=3? Also, all the graphs have the same title, so I'm a bit confused at what the differences are
+Q6: I'm glad that you ensured that the simulation time was the same for each bar before comparing the two.
+Q7: I think this looks good.
